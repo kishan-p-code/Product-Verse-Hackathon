@@ -11,10 +11,14 @@ const API_BASE = '/api';
 async function request(endpoint, options = {}) {
   const url = `${API_BASE}${endpoint}`;
   const token = localStorage.getItem('unipilot_token');
+  const localWorkspace = localStorage.getItem('unipilot_local_mode');
 
   const headers = {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    // Local UniPilot intentionally runs without authentication. This selects
+    // the stable local SQLite workspace used by backend data and AI routes.
+    ...(localWorkspace ? { 'X-UniPilot-Local': localWorkspace } : {}),
     ...options.headers,
   };
 
@@ -92,9 +96,13 @@ export const api = {
     const formData = new FormData();
     formData.append('file', file);
     const token = localStorage.getItem('unipilot_token');
+    const localWorkspace = localStorage.getItem('unipilot_local_mode');
     const res = await fetch(`${API_BASE}/import/certificate`, {
       method: 'POST',
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(localWorkspace ? { 'X-UniPilot-Local': localWorkspace } : {}),
+      },
       body: formData,
     });
     if (!res.ok) throw new Error('Certificate extraction failed');
@@ -197,4 +205,3 @@ export const api = {
       body: JSON.stringify({ profile, activities }),
     }),
 };
-

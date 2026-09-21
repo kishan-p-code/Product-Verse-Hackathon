@@ -61,7 +61,7 @@ export default function LandingPage() {
               <div className="text-center">
                 <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-sky-200/30 bg-sky-200/10 text-sky-100 shadow-lg shadow-sky-950/50"><Sparkles className="h-6 w-6" /></div>
                 <h1 className="text-2xl font-bold sm:text-3xl">Set up your study space</h1>
-                <p className="mt-2 text-sm text-slate-300">No login required. Your details and timetable stay on this browser.</p>
+                
               </div>
               <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {fields.map(([key, label, placeholder]) => <label key={key} className={key === 'name' ? 'sm:col-span-2' : ''}><span className="mb-1.5 block text-xs font-medium text-slate-200">{label}</span><input required type={key === 'age' ? 'number' : 'text'} min={key === 'age' ? '1' : undefined} value={profile[key]} onChange={(e) => setProfile({ ...profile, [key]: e.target.value })} placeholder={placeholder} className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-3.5 py-3 text-sm text-white outline-none placeholder:text-slate-500 focus:border-sky-300/70 focus:ring-2 focus:ring-sky-300/15" /></label>)}
